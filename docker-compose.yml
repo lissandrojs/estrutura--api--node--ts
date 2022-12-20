@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  postgres:
+    container_name: m4-sprint6-atividade-passo-a-passo-postgres
+    image: postgres:14.2-alpine
+    ports:
+      - 5432:5432
+    env_file:
+      - ./.env
+      
+  
+  backend:
+    container_name: m4-sprint6-atividade-passo-a-passo-node
+    build: ./
+    depends_on:
+      - postgres
+    ports:
+      - 3000:3000
+    env_file:
+      - ./.env
+    volumes:
+      - ./:/app/:rw
+    environment:
+      - IS_COMPOSE=true
+      - PORT=3000
